@@ -16,12 +16,15 @@ d <- penguins
 
 cols = uoe_colours(c('Exeter Dark Green', 'Exeter Deep Green', 'Exeter Highlight Green'))
 
-d_summary <- group_by(d, species) %>%
+# randomly sample 50 points
+d_sample <- slice_sample(d, n = 50)
+
+d_summary <- group_by(d_sample, species) %>%
   summarise(mean = mean(body_mass_g, na.rm = TRUE), .groups = 'drop') %>%
   mutate(group = 1)
 
 # make box plot
-p1 <- ggplot(d, aes(species, body_mass_g)) +
+p1 <- ggplot(d_sample, aes(forcats::fct_relevel(species, 'Gentoo', after=1) , -1*body_mass_g)) +
   geom_boxplot(aes(fill = species, col = species), outlier.shape = NA, show.legend = FALSE) +
   #stat_summary(geom = "crossbar", fatten = 0, color = "white", width = 0.4,
     #fun.data = function(x) {
@@ -32,12 +35,12 @@ p1 <- ggplot(d, aes(species, body_mass_g)) +
       #))
     #}
   #) +
-  #geom_point(position = position_jitter(width = 0.1), fill = 'white', shape = 21, size = 0.3, stroke = 0.2) +
+  geom_point(position = position_jitter(width = 0.1), fill = 'white', shape = 21, size = 0.65, stroke = 0.2) +
   scale_fill_manual(values = unname(cols)) +
   scale_color_manual(values = unname(cols)) +
-  geom_line(aes(species, mean, group = group), d_summary, col = 'white', linewidth = 1.4) +
-  geom_line(aes(species, mean, group = group), d_summary, linewidth = 0.8) +
-  geom_point(aes(species, mean), d_summary, size = 2, shape = 21, fill = 'white') +
+  geom_line(aes(species, -1*mean, group = group), d_summary, col = 'black', linewidth = 1.4, lineend = 'round') +
+  geom_line(aes(species, -1*mean, group = group), d_summary, col = 'white', linewidth = 0.8, lineend = 'round') +
+  #geom_point(aes(species, mean), d_summary, size = 2, shape = 21, fill = 'white') +
   theme_void()
 
 p1
@@ -61,15 +64,15 @@ sticker(p1,
         p_size = 5,
         p_x = 1.03,
         p_y = 1.53,
-        u_color = 'light grey',
+        u_color = 'dark grey',
         u_family = "Outfit",
         u_size = 5,
         u_x = 0.42,
         u_y = 1.35,
         u_angle = 0,
         s_x = 1,
-        s_y = 0.8,
-        s_width = 1.3,
+        s_y = 0.7,
+        s_width = 1.4,
         s_height = 1,
         h_fill = 'white',
         h_color = uoe_colours('Exeter Highlight Green'),
