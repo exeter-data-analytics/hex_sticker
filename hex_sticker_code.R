@@ -6,7 +6,7 @@
 library(hexSticker)
 library(tidyverse)
 library(palmerpenguins)
-library(BrewerUoE) # remotes::install_github('padpadpadpad/brewerUoE')
+library(BrewerUoE) # remotes::install_github('padpadpadpad/BrewerUoE')
 library(showtext)
 
 # load in dataset
