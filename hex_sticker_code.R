@@ -6,8 +6,9 @@
 library(hexSticker)
 library(tidyverse)
 library(palmerpenguins)
-library(BrewerUoE) # remotes::install_github('padpadpadpad/BrewerUoE')
 library(showtext)
+if(!require(BrewerUoE))remotes::install_github('padpadpadpad/BrewerUoE')
+library(BrewerUoE)
 
 # load in dataset
 data("penguins")
@@ -45,6 +46,16 @@ p1 <- ggplot(d_sample, aes(forcats::fct_relevel(species, 'Gentoo', after=1) , -1
 
 p1
 
+#SDL boxplot
+p2 <- ggplot(data = d, aes(x = body_mass_g, y = bill_depth_mm)) +
+  #geom_histogram(aes(x = flipper_length_mm), binwidth = 10)
+  geom_boxplot(aes(group = cut_width(body_mass_g, 500)), fill = uoe_colours('Exeter Highlight Green'), outlier.shape = NA, size = 0) +
+  stat_summary_bin(fun = mean , colour=uoe_colours('Exeter Deep Green'), geom="line", bins = 9, binwidth = 500, size = 8) +
+  stat_summary_bin(fun = mean , colour=uoe_colours('Exeter Deep Green'), geom="point", bins = 9, binwidth = 500, size = 11) +
+  stat_summary_bin(fun = mean , colour="white", geom="point", bins = 9, binwidth = 500, size = 6) +
+  stat_summary_bin(fun = mean , colour="white", geom="line", bins = 9, binwidth = 500, size = 3) +
+  theme_void()
+
 # check what fonts are available
 showtext_auto()
 sysfonts::font_families()
@@ -78,4 +89,40 @@ sticker(p1,
         h_color = uoe_colours('Exeter Highlight Green'),
         h_size = 5,
         filename="hex_sticker.png",
-        white_around_sticker = TRUE)  
+        white_around_sticker = TRUE)
+
+#SDL boxplot
+p2 <- ggplot(data = d, aes(x = body_mass_g, y = bill_depth_mm)) +
+  #geom_histogram(aes(x = flipper_length_mm), binwidth = 10)
+  geom_boxplot(aes(group = cut_width(body_mass_g, 500)), fill = uoe_colours('Exeter Highlight Green'), outlier.shape = NA, size = 0) +
+  stat_summary_bin(fun = mean , colour=uoe_colours('Exeter Deep Green'), geom="line", bins = 9, binwidth = 500, size = 2.5) +
+  stat_summary_bin(fun = mean , colour=uoe_colours('Exeter Deep Green'), geom="point", bins = 9, binwidth = 500, size = 3) +
+  stat_summary_bin(fun = mean , colour="white", geom="point", bins = 9, binwidth = 500, size = 1.5) +
+  stat_summary_bin(fun = mean , colour="white", geom="line", bins = 9, binwidth = 500, size = 1) +
+  theme_void()
+
+# make SDL sticker
+sticker(p2,
+        package="Exeter Data",
+        url = 'Analytics Hub',
+        p_color = 'black',
+        p_family = "Outfit",
+        p_size = 5,
+        p_x = 1.03,
+        p_y = 1.5,
+        u_color = 'dark grey',
+        u_family = "Outfit",
+        u_size = 5,
+        u_x = 0.42,
+        u_y = 1.32,
+        u_angle = 0,
+        s_x = 1,
+        s_y = 0.8,
+        s_width = 1.4,
+        s_height = 1.4,
+        h_fill = 'white',
+        h_color = uoe_colours('Exeter Highlight Green'),
+        h_size = 5,
+        filename="hex_sticker.png",
+        white_around_sticker = TRUE)
+
