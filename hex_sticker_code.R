@@ -81,6 +81,7 @@ sticker(p1,
         filename="hex_sticker.png",
         white_around_sticker = TRUE)
 
+# make new dataset with defined bins
 d2 <- filter(d, !is.na(body_mass_g)) %>%
   mutate(., bin = cut_interval(body_mass_g, n = 8)) %>%
   separate(bin, c('start', 'end'), sep = ',', remove = FALSE) %>%
@@ -91,12 +92,11 @@ d2 <- filter(d, !is.na(body_mass_g)) %>%
 #Alternative version
 p2 <- filter(d2, !is.na(body_mass_g)) %>%
   ggplot(., aes(x = as.character(mid_point), y = bill_depth_mm)) +
-  #geom_histogram(aes(x = flipper_length_mm), binwidth = 10)
   geom_boxplot(fill = uoe_colours('Exeter Highlight Green'), outlier.shape = NA, size = 0) +
-  stat_summary(aes(group = group), fun = mean , colour=uoe_colours('Exeter Deep Green'), geom="line", bins = 8, linewidth = 2.5) +
-  stat_summary(fun = mean , colour=uoe_colours('Exeter Deep Green'), geom="point", bins = 8, size = 3) +
-  stat_summary(fun = mean , colour="white", geom="point", bins = 8, size = 1.5) +
-  stat_summary(aes(group = group), fun = mean , colour="white", geom="line", bins = 8, size = 1) +
+  stat_summary(aes(group = group), fun = mean , colour=uoe_colours('Exeter Deep Green'), geom="line", linewidth = 2.5) +
+  stat_summary(fun = mean , colour=uoe_colours('Exeter Deep Green'), geom="point", size = 3) +
+  stat_summary(fun = mean , colour="white", geom="point", size = 1.5) +
+  stat_summary(aes(group = group), fun = mean , colour="white", geom="line", size = 1) +
   theme_void()
 
 #Make alternative sticker
