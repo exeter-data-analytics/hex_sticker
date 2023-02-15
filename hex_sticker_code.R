@@ -92,11 +92,11 @@ d2 <- filter(d, !is.na(body_mass_g)) %>%
 #Alternative version
 p2 <- filter(d2, !is.na(body_mass_g)) %>%
   ggplot(., aes(x = as.character(mid_point), y = bill_depth_mm)) +
-  geom_boxplot(fill = uoe_colours('Exeter Highlight Green'), outlier.shape = NA, size = 0) +
-  stat_summary(aes(group = group), fun = mean , colour=uoe_colours('Exeter Deep Green'), geom="line", linewidth = 2.5) +
+  geom_boxplot(fill = uoe_colours('Exeter Highlight Green'), outlier.shape = NA, linewidth = 0) +
+  stat_summary(aes(group = group), fun = mean , colour=uoe_colours('Exeter Deep Green'), geom="line", linewidth = 2) +
   stat_summary(fun = mean , colour=uoe_colours('Exeter Deep Green'), geom="point", size = 3) +
-  stat_summary(fun = mean , colour="white", geom="point", size = 1.5) +
-  stat_summary(aes(group = group), fun = mean , colour="white", geom="line", size = 1) +
+  stat_summary(fun = mean , colour="white", geom="point", size = 1.6) +
+  stat_summary(aes(group = group), fun = mean , colour="white", geom="line", linewidth = 0.7) +
   theme_void()
 
 #Make alternative sticker
@@ -123,4 +123,3 @@ sticker(p2,
         h_size = 5,
         filename="hex_sticker.png",
         white_around_sticker = TRUE)
-
